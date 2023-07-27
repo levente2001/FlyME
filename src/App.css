@@ -1,38 +1,124 @@
 .App {
+  background-color: #f3f3f3;
+  font-family: Consolas, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  color: #3A6F93;
+  font-size: 2.5em;
+}
+h2 {
+  color: #1C2833;
+  font-size: 2em;
+}
+/* Add padding to containers */
+.container {
+  padding: 20px;
+  display: flex;
+  margin: auto;
+}
+
+.inputfield input {
+  width: 400px;
+  border-radius: 10px;
+}
+
+.inputfield {
+  width: 400px;
+  margin-left: 100px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.inputfield button {
+  width: 400px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1em;
+  background-color: #3A6F93;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.welcomecard {
+  width: 350px;
+  height: 350px;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  border-radius: 350px;
+  background: #f3f3f3;
+  border: 5px solid #3A6F93;
   }
-  to {
-    transform: rotate(360deg);
+
+  .link {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #F39C12;
+  }
+
+  .link:hover {
+    background-color: #F3BB61;
+  }
+
+  .img {
+    width: 250px;
+  }
+
+@media only screen and (max-width: 768px) {
+  .container {
+    display: flex;
+    height: 90vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  h1 {
+    color: #3A6F93;
+    font-size: 2em;
+  }
+
+  .welcomecard {
+    width: 150px;
+    height: 150px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 200px;
+    background: #f3f3f3;
+    border: 5px solid #3A6F93;
+    }
+
+  .img {
+    width: 100px;
+  }
+
+  .inputfield input {
+    width: 80%;
+    border-radius: 10px;
+  }
+  
+  .inputfield {
+    width: 90vw;
+    text-align: center;
+    margin-left: 0px;
+  }
+  
+  .inputfield button {
+    width: 80%;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1em;
+    background-color: #3A6F93;
   }
 }

@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# Deployed App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Try out the app [here](https://myapp-abb28.firebaseapp.com)
 
-## Available Scripts
+- Sign up as a new user
+- Login and see the homepage
+- Sign out
 
-In the project directory, you can run:
+# Problem Definition
 
-### `npm start`
+**Design a signup/login/logout workflow for a web app as follows:**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Signup lets you create a new user with email/password, login lets you login as that user and logout ends the user session
+2. If a user does **not** log out, the session is persisted so that when they reopen the app in the same browser, they are already logged in
+3. If a user has logged out they **must** be required to login before being able to access any private pages of the app
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![Login Logout workflow](/images/login-logout.png)
 
-### `npm test`
+# Architecture
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Libraries     | Description                      |
+| ------------- | -------------------------------- |
+| Firebase Auth | User authentication as a service |
+| React         | Front-end framework              |
+| React-Router  | Routes for /signup, /login and / |
 
-### `npm run build`
+## Firebase Auth
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Each page of the webapp needs to first figure out the auth state of the user and then either render or redirect to /login.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The recommended approach to get the auth state in firebase is attaching an observer:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+  } else {
+    // No user is signed in.
+  }
+});
 
-### `npm run eject`
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## React
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+We have a 1:1 mapping between a "page" and a React component. So, every component needs to:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- attach this observer before it mounts
+- detach this observer when it unmounts
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Note**: Attaching the listener in **componentDidMount**, results in an initial flicker on the screen. For example, if a user is logged out and they try to access "/", a bit of content appears before the listener code kicks in and the app realises that user needs to be redirected to login. Hence, a better approach is to attach the listener **in the constructor**, before the component mounts.
 
-## Learn More
+We will achieve this using a [higher-order component](https://reactjs.org/docs/higher-order-components.html) (HOC) in React.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- With a HOC, we abstract out the auth logic in a component called [withAuth](https://github.com/asmitab/react-firebase-login/blob/master/src/components/auth.js)
+- Each new page (or each new component) is wrapped in withAuth and receives the up-to-date auth state
+- Each component can then define custom behavior based on the auth state
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Alternate Approches
 
-### Code Splitting
+### Shared Component
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The idea was to create an 'Auth' component to listen to the auth state and then render this component first in every other component's render.
 
-### Analyzing the Bundle Size
+**Pros**: Easier to learn and implement compared to HOC
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Cons**: Redirection logic based on auth state needed to be written in the 'Auth' component which was getting harder to get right and also defying the seperation of concerns principle
 
-### Making a Progressive Web App
+### Context
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The idea was to create a [React context](https://reactjs.org/docs/context.html) for the current user object.
 
-### Advanced Configuration
+**Cons**: To implement a context you need a provider and consumers. The provider sets the context which the consumer receives. It was difficult to determine how to design that for our use case, since the provider may be any component that loads first.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# Learnings
 
-### Deployment
+- HOCs are a great way of abstracting out common logic across components and reusing it.
+- Testability is better as well - you can mock the HOC part but providing the props yourself and just test out the component functionality as in [this](https://github.com/asmitab/react-firebase-login/blob/master/src/pages/__tests__/login.js) test.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Local Build
 
-### `npm run build` fails to minify
+For running this locally, you need your own Firebase project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Firebase
+
+- You need to create a firebase project and register a web app as mentioned in Steps 1 & 2 [here](https://firebase.google.com/docs/web/setup)
+- Enable email/password authentication in your project as listed [here](https://firebase.google.com/docs/auth/web/password-auth)
+
+## Env variables
+
+Get your firebase api config as mentioned [here](https://support.google.com/firebase/answer/7015592)
+
+```
+export REACT_APP_FIREBASE_CONFIG='{"apiKey":"YOUR_KEY_HERE"}'
+```
+
+## Start locally
+
+After you have cloned the repo:
+
+```
+npm install
+npm start
+```
+
+This should start the web app at: [http://localhost:3000/](http://localhost:3000/)
+
+## Test
+
+```
+npm test
+```
