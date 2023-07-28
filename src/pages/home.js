@@ -1,9 +1,9 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-
 import { authStates, withAuth } from "../components/auth";
 import { signOut } from "../utils/firebase";
 import Loader from "../components/loader";
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 function handleSignOut() {
   signOut()
@@ -16,6 +16,17 @@ function handleSignOut() {
 }
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMobileMenu: false,
+    };
+  }
+
+  toggleMobileMenu = () => {
+    this.setState(prevState => ({ showMobileMenu: !prevState.showMobileMenu }));
+  };
+
   render() {
     if (this.props.authState === authStates.INITIAL_VALUE) {
       return <Loader />;
@@ -27,14 +38,21 @@ class Home extends React.Component {
 
     return (
       <div className="container">
-        <nav>
-          <p>Welcome {this.props.user.email}!</p>
-          <div className="navbar-items">
-            {/* Add your other navigation links here */}
-            <button onClick={handleSignOut}> Sign Out </button>
+        <div className="navbar">
+          <div className="padding80">
+            <p>Welcome, let's fly!</p>
+            <button className="menu-button" onClick={this.toggleMobileMenu}>
+              {this.state.showMobileMenu ? <FaTimes /> : <FaBars />}
+            </button>
+            <div className={`mobile-menu ${this.state.showMobileMenu ? 'open' : ''}`}>
+              <button className="buttonsidebar" onClick={handleSignOut}> Sign Out </button>
+              <button className="buttonsidebar"> Profile </button>
+            </div>
+            <div className="navbar-items">
+              <button onClick={handleSignOut}> Sign Out </button>
+            </div>
           </div>
-        </nav>
-        {/* other contents */}
+        </div>
       </div>
     );
   }
