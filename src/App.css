@@ -1,3 +1,4 @@
+
 .App {
   background-color: #f3f3f3;
   font-family: Consolas, monospace;
@@ -118,6 +119,9 @@ button {
     height: 40px;
     border-radius: 10px;
     color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
     font-size: 0.8em;
     background-color: #F39C12;
