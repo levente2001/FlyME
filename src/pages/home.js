@@ -45,6 +45,7 @@ class Home extends React.Component {
               {this.state.showMobileMenu ? <FaTimes /> : <FaBars />}
             </button>
             <div className={`mobile-menu ${this.state.showMobileMenu ? 'open' : ''}`}>
+              <button className="buttonsidebarback" onClick={this.toggleMobileMenu}>&lt;</button>
               <button className="buttonsidebar" onClick={handleSignOut}> Sign Out </button>
               <button className="buttonsidebar"> Profile </button>
             </div>

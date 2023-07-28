@@ -261,5 +261,19 @@ button {
     padding: auto;
     background-color: #3A6F93;
   }
+
+  .navbar button.buttonsidebarback {
+    border-radius: 5px;
+    color: #fff;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    padding: auto;
+    background-color: #3A6F93;
+  }
 }
 
