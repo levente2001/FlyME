@@ -245,6 +245,10 @@ button {
     height: 35%;
     overflow: scroll;
   }
+
+  .fontloader {
+    font-family: Ariel;
+ }
   
 
 @media only screen and (max-width: 768px) {
