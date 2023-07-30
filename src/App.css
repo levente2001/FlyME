@@ -246,8 +246,8 @@ button {
     overflow: scroll;
   }
 
-  .fontloader {
-    font-family: "Gill Sans", sans-serif;;
+  p.fontloader {
+    font-family: sans-serif;
  }
   
 
