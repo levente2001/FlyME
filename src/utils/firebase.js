@@ -6,13 +6,14 @@ if (!process.env.REACT_APP_FIREBASE_CONFIG) {
   console.log("ENV: ", process.env);
 }
 const firebaseConfig = {
-  apiKey: "AIzaSyBiHEwEm7xUXnkbCjRPMT2bhbGVAxg8lpM",
-  authDomain: "uberforplanes.firebaseapp.com",
-  projectId: "uberforplanes",
-  storageBucket: "uberforplanes.appspot.com",
-  messagingSenderId: "333900224975",
-  appId: "1:333900224975:web:2f4aa920a2123f9ffb1aba",
-  measurementId: "G-BZ6R6RF1C7"
+  apiKey: "AIzaSyDMyKH0KiWLOA3q4fodgo6V0OLBRmXKkaw",
+  authDomain: "planes-2a59d.firebaseapp.com",
+  databaseURL: "https://planes-2a59d-default-rtdb.firebaseio.com",
+  projectId: "planes-2a59d",
+  storageBucket: "planes-2a59d.appspot.com",
+  messagingSenderId: "529584217224",
+  appId: "1:529584217224:web:aaaeceedbb2825a736533d",
+  measurementId: "G-7E08VS18LD"
 };
 
 export function initialize() {

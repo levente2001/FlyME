@@ -23,6 +23,24 @@ class SignUp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleResize = () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+
+  componentDidMount() {
+    // Set the value once initially
+    this.handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    // Remove event listener on cleanup
+    window.removeEventListener('resize', this.handleResize);
+  }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
