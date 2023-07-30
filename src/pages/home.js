@@ -155,7 +155,7 @@ class Home extends React.Component {
                   <h2 style={{fontSize: "1em"}}>{post.title}</h2>
                 </div>
                 <div className="itemdescription">
-                  <p>{post.description}</p>
+                  <p style={{fontFamily: "ariel-sans"}}>{post.description}</p>
                 </div>
               
               </div>
