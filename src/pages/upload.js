@@ -14,7 +14,8 @@ class Home extends React.Component {
       urls: [],
       progress: 0,
       title: '',
-      description: '',
+      shortdescription: '',
+      longdescription: '',
       imageData: []
     };
 
@@ -66,13 +67,15 @@ class Home extends React.Component {
           imageURLs: urls, // Change 'imageURL' to 'imageURLs' to reflect that it's an array
           timestamp: Date.now(),
           title: this.state.title,
-          description: this.state.description,
+          shortdescription: this.state.shortdescription,
+          longdescription: this.state.longdescription,
         };
         Firebase.database().ref('images/').push().set(data);
         this.setState({ 
           urls: [],
           title: '',
-          description: '',
+          shortdescription: '',
+          longdescription: '',
           progress: 0,
           images: [],
         });
@@ -98,7 +101,8 @@ class Home extends React.Component {
                 <progress value={this.state.progress} max="100" />
                 <br />
                 <input type="text" name="title" placeholder="Title" onChange={this.handleInputChange} />
-                <textarea type="text" name="description" placeholder="Description" rows="10" onChange={this.handleInputChange} />
+                <textarea type="text" name="shortdescription" placeholder="Short Description" rows="10" onChange={this.handleInputChange} />
+                <textarea type="text" name="longdescription" placeholder="Long Description" rows="10" onChange={this.handleInputChange} />
                 <input type="file" onChange={this.handleChange} multiple />
                 <button onClick={this.handleUpload}>Upload</button>
             </div>

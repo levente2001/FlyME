@@ -53,7 +53,10 @@ class Home extends React.Component {
     db.on("value", snapshot => {
       let imageData = [];
       snapshot.forEach(snap => {
-        imageData.push(snap.val());
+        // add an id field with the key of the snapshot
+        let image = snap.val();
+        image.id = snap.key;
+        imageData.push(image);
       });
       this.setState({ imageData });
 
@@ -67,7 +70,8 @@ class Home extends React.Component {
       console.log(imageData);
       console.log(currentImageIndices);
     });
-  }
+}
+
 
   handleImageScroll = (postIndex, direction) => {
     this.setState(prevState => {
@@ -134,17 +138,18 @@ class Home extends React.Component {
             {!isMobile && (
               <div className="navbar-items">
                 <button onClick={handleSignOut}  className="marginside40"> Sign Out </button>
-                <button onClick={() => this.props.history.push('/profile')} className="marginside40"> Profile </button>
+                <button onClick={() => this.props.history.push('/upload')} className="marginside40"> Upload </button>
               </div>
             )}
           </div>
         </div>
         <div className="itemslist">
         {imageData && imageData.map((post, postIndex) => (
-          <div key={postIndex} className="card uploadscreen">
+          <div 
+            key={postIndex} className="card uploadscreen">
             {post.imageURLs && post.imageURLs.map((imageUrl, imgIndex) => (
               <div key={imgIndex} style={{ borderRadius: "10px", alignItems: "center", justifyContent: "center", width: '100%', height: '100%', display: imgIndex === (currentImageIndices[postIndex] || 0) ? 'block' : 'none' }}>
-                <img src={imageUrl} alt="uploaded" style={{ width: '250px', height: '40%', objectFit: 'contain' }} />
+                <img  onClick={() => this.props.history.push(`/productpage/${post.id}`)} src={imageUrl} alt="uploaded" style={{ width: '250px', height: '40%', objectFit: 'contain', cursor: "pointer" }} />
                 {imgIndex === (currentImageIndices[postIndex] || 0) && (
                   <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: '100%',}}>
                     <button className="cardbutton" onClick={() => this.handleImageScroll(postIndex, -1)}>&lt;</button>
@@ -155,7 +160,7 @@ class Home extends React.Component {
                   <h2 style={{fontSize: "1em"}}>{post.title}</h2>
                 </div>
                 <div className="itemdescription">
-                  <p className="fontloader">{post.description}</p>
+                  <p className="fontloader">{post.shortdescription}</p>
                 </div>
               
               </div>

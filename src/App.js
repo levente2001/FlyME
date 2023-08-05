@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import Profile from "./pages/profile";
+import Upload from "./pages/upload";
+import Product from "./pages/productpage";
 
 import "./App.css";
 
@@ -22,8 +23,11 @@ function App() {
           <Route path="/signup">
             <Signup />
           </Route>
-          <Route path="/profile">
-            <Profile />
+          <Route path="/upload">
+            <Upload />
+          </Route>
+          <Route path="/productpage/:id">
+            <Product />
           </Route>
         </Switch>
       </div>
