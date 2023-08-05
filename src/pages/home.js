@@ -131,7 +131,7 @@ class Home extends React.Component {
                 <div className={`mobile-menu ${showMobileMenu ? 'open' : ''}`}>
                   <button className="buttonsidebarback" onClick={this.toggleMobileMenu}>&lt;</button>
                   <button className="buttonsidebar" onClick={handleSignOut}> Sign Out </button>
-                  <button onClick={() => this.props.history.push('/profile')} className="buttonsidebar"> Profile </button>
+                  <button onClick={() => this.props.history.push('/profile')} className="buttonsidebar"> Upload </button>
                 </div>
               </>
             )}
